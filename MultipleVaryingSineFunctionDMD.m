@@ -24,7 +24,7 @@ w4 = 2*pi*f4;
 A4 = 0.5;
 
 x = 0:pi/30:2*pi; 
-r = 6; %Number of DMD modes
+r = 10; %Number of DMD modes
 dt = 10; %Sampling Rate
 endint = 60; %Span of sampling
 
@@ -42,10 +42,10 @@ for t = 1:endint+1
  phase2 = t*w2;
  phase3 = t*w3;
  phase4 = t*w4;
- y1 = exp(0.2*x).*sin(w1.*x+phase1);
- y2 = exp(0.9*x).*sin(w2.*x+phase2);
+ y1 = exp(0.02*x).*sin(w1.*x+phase1);
+ y2 = exp(0.2*x).*sin(w2.*x+phase2);
  y3 = exp(0.1*x).*sin(w3.*x+phase3);
- y4 = exp(0.05*x).*sin(w4.*x+phase4);
+ y4 = exp(0.4*x).*sin(w4.*x+phase4);
  b(:,dt*t) = y1(:)+y2(:)+y3(:)+y4(:);
  bt(:,dt*t) = y1(:)+y2(:)+y3(:)+y4(:)+ B*noiseSignal(:);
  %plot(x,y1,x,y2,x,y3,x,y4)
@@ -79,3 +79,13 @@ figure(3)
 plot(eigenvalues, 'x')
 xlabel('Real(omega)')
 ylabel('Im(omega)')
+
+reconsig = 0;
+
+for i=1:length(r)
+      DMDmode = Ut*V(:,i);
+      reconsig = reconsig + real(DMDmode);
+end
+
+ plot(x, reconsig)
+
